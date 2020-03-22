@@ -6,7 +6,7 @@
         {
             "label": "Build & Run Interactive Server",
             "type": "shell",
-            "command": "docker run -it --rm --net=host lltest/gamesvr-ut2004-freeplay ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lltest?AdminPassword=test123 -nohomedir -lanplay",
+            "command": "docker run -it --rm -p 7777-7788:7777-7788 -p 7777-7788:7777-7788/udp -p 8888:8888 -p 27900:27900 -p 27900:27900/udp -p 42292:42292 -p 42292:42292/udp lltest/gamesvr-ut2004-freeplay ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lltest?AdminPassword=test123 -nohomedir -lanplay",
             "dependsOn": "Build Image",
             "group": "build",
             "problemMatcher": [],
@@ -15,7 +15,7 @@
         {
             "label": "Build & Shell In",
             "type": "shell",
-            "command": "docker run -it --rm --net=host --rm lltest/gamesvr-ut2004-freeplay;",
+            "command": "docker run -it --rm -p 7777-7788:7777-7788 -p 7777-7788:7777-7788/udp -p 8888:8888 -p 27900:27900 -p 27900:27900/udp -p 42292:42292 -p 42292:42292/udp --rm lltest/gamesvr-ut2004-freeplay;",
             "dependsOn": "Build Image",
             "group": "build",
             "problemMatcher": [],
