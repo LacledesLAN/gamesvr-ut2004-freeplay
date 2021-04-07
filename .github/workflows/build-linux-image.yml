@@ -36,7 +36,7 @@ jobs:
             SOURCE_COMMIT=${{ github.sha }}
           no-cache: true
       - name: Test Linux Image
-        run: docker run --rm lacledeslan/gamesvr-ut2004-freeplay:latest /app/ll-tests/gamesvr-ut2004.sh
+        run: docker run --rm lacledeslan/gamesvr-ut2004-freeplay:latest /app/ll-tests/gamesvr-ut2004-freeplay.sh
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v1

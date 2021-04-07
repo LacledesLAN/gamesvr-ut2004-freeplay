@@ -13,6 +13,18 @@
             "promptOnClose": true
         },
         {
+            "label": "Build & Execute Self Tests",
+            "type": "shell",
+            "command": "docker run -it --rm lltest/gamesvr-ut2004-freeplay /app/ll-tests/gamesvr-ut2004-freeplay.sh;",
+            "dependsOn": "build-image",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "promptOnClose": true
+        },
+        {
             "label": "Build & Shell In",
             "type": "shell",
             "command": "docker run -it --rm -p 7777-7788:7777-7788 -p 7777-7788:7777-7788/udp -p 8888:8888 -p 27900:27900 -p 27900:27900/udp -p 42292:42292 -p 42292:42292/udp --rm lltest/gamesvr-ut2004-freeplay;",
