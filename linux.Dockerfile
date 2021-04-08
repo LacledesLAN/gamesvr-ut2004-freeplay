@@ -1,5 +1,7 @@
 # escape=`
-FROM lacledeslan/gamesvr-ut2004
+ARG CONTAINER_REGISTRY="docker.io"
+
+FROM $CONTAINER_REGISTRY/lacledeslan/gamesvr-ut2004:latest
 
 ARG BUILDNODE=unspecified
 ARG SOURCE_COMMIT=unspecified

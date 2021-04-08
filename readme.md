@@ -23,7 +23,7 @@ docker run -it --rm lacledeslan/gamesvr-ut2004-freeplay:latest /app/ll-tests/gam
 ### Run simple interactive server
 
 ```shell
-docker run -it --rm --net=host lacledeslan/gamesvr-ut2004 ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lladmin?AdminPassword=test123 -nohomedir -lanplay
+docker run -it --rm --net=host lacledeslan/gamesvr-ut2004-freeplay ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lladmin?AdminPassword=test123 -nohomedir -lanplay
 ```
 
 ## Getting Started with Game Servers in Docker
