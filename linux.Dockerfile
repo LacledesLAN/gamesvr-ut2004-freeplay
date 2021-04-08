@@ -5,7 +5,7 @@ ARG BUILDNODE=unspecified
 ARG SOURCE_COMMIT=unspecified
 
 LABEL com.lacledeslan.build-node=$BUILDNODE `
-        org.opencontainers.image.source=https://github.com/lacledeslan/gamesvr-ut2004-freeplay `
+        org.opencontainers.image.source="https://github.com/lacledeslan/gamesvr-ut2004-freeplay" `
         org.opencontainers.image.title="Laclede's LAN Unreal Tournament 2004 Dedicated Freeplay Server" `
         org.opencontainers.image.url=https://github.com/LacledesLAN/README.1ST `
         org.opencontainers.image.vendor="Laclede's LAN" `
