@@ -24,7 +24,7 @@ jobs:
       - name: Pull Latest lacledeslan/gamesvr-ut2004
         run: docker pull lacledeslan/gamesvr-ut2004
       - name: Build Linux Image
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v2.7.0
         with:
           context: .
           file: ./linux.Dockerfile
