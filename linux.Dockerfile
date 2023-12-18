@@ -17,10 +17,6 @@ COPY --chown=UT2004:root ./dist /app
 
 RUN usermod -l UT2004-Freeplay UT2004
 
-COPY --chown=UT2004-Freeplay:root /linux/ll-tests/*.sh /app/ll-tests/
-
-RUN chmod +x /app/ll-tests/*.sh
-
 USER UT2004-Freeplay
 
 ONBUILD USER root
