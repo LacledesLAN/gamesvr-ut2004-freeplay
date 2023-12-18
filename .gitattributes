@@ -1,2 +1,17 @@
 # Set default behavior to automatically normalize to linux line endings.
 * text=auto eol=lf
+
+*.Dockerfile        text
+*.gif               binary
+*.jpeg              binary
+*.jpg               binary
+*.json              text
+*.md                text
+*.png               binary
+*.sh                text
+*.yaml              text
+*.yml               text
+.editorconfig       text
+.gitattributes      text
+.gitignore          text
+LICENSE             text

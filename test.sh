@@ -1,9 +1,23 @@
 #!/bin/bash -i
+# shellcheck disable=SC2317
+
+# Check prereqs
+command -v awk > /dev/null 2>&1 || { echo "awk is missing"; exit 1; }
+command -v docker > /dev/null 2>&1 || { echo "docker is missing"; exit 1; }
+command -v md5sum > /dev/null 2>&1 || { echo "md5sum is missing"; exit 1; }
+command -v sleep > /dev/null 2>&1 || { echo "sleep is missing"; exit 1; }
+command -v tmux > /dev/null 2>&1 || { echo "tmux is missing"; exit 1; }
+
+if [ -z "$1" ]; then
+    docker_image="lacledeslan/gamesvr-ut2004-freeplay";
+else
+    docker_image=$1;
+fi
 
 #####################################################################################################
 ### CONFIG VARS #####################################################################################
-declare LLTEST_CMD="/app/System/ucc-bin server DM-Gael?game=XGame.xDeathMatch -nohomedir -lanplay";
-declare LLTEST_NAME="gamesvr-csgo-$(date '+%H%M%S')";
+declare LLTEST_CMD="docker run --rm $docker_image /app/System/ucc-bin server DM-Gael?game=XGame.xDeathMatch -nohomedir -lanplay";
+declare LLTEST_NAME && LLTEST_NAME="gamesvr-ut2004-freeplay-$(date '+%H%M%S')";
 #####################################################################################################
 #####################################################################################################
 
@@ -12,7 +26,7 @@ declare LLCOUNTER=0;
 declare LLBOOT_ERRORS="";
 declare LLTEST_HASFAILURES=false;
 declare LLTEST_LOGFILE="$LLTEST_NAME"".log";
-declare LLTEST_RESULTSFILE="$LLTEST_NAME"".results";
+declare LLTEST_RESULTSFILE="$LLTEST_NAME"".results.log";
 
 # Server log file should contain $1 because $2
 function should_have() {
@@ -36,8 +50,8 @@ function should_lack() {
 
 # Command $1 should make server return $2
 function should_echo() {
-    tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
-    if [ "$?" == 0 ] ; then
+    if ! tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
+    then
         LLCOUNTER=0;
         LLTMP=$(md5sum "$LLTEST_LOGFILE");
         tmux send -t "$LLTEST_NAME" C-z "$1" Enter;
@@ -74,12 +88,6 @@ function print_log() {
     fi;
 }
 
-# Check prereqs
-command -v awk > /dev/null 2>&1 || echo "awk is missing";
-command -v md5sum > /dev/null 2>&1 || echo "md5sum is missing";
-command -v sleep > /dev/null 2>&1 || echo "sleep is missing";
-command -v tmux > /dev/null 2>&1 || echo "tmux is missing";
-
 # Prep log file
 : > "$LLTEST_LOGFILE"
 if [ ! -f "$LLTEST_LOGFILE" ]; then
@@ -104,8 +112,8 @@ sleep 0.3;
 tmux pipe-pane -t "$LLTEST_NAME" -o "cat > $LLTEST_LOGFILE";
 
 while true; do
-    tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
-    if [ "$?" != 0 ] ; then
+    if ! tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
+    then
         echo $'terminated.\n';
         LLBOOT_ERRORS="Test process self-terminated";
         break;
@@ -137,7 +145,7 @@ if [ ! -s "$LLTEST_LOGFILE" ]; then
     exit 1;
 fi;
 
-if [ ! -z "${LLBOOT_ERRORS// }" ]; then
+if [ -n "${LLBOOT_ERRORS// }" ]; then
     echo "Boot error: $LLBOOT_ERRORS";
     print_log;
     exit 1;
@@ -149,12 +157,13 @@ should_have 'Executing Class Engine.ServerCommandlet' 'Server started';
 should_have "Game class is 'xDeathMatch'" 'Server loaded deathmatch';
 should_have 'Bringing Level DM-Gael.myLevel up for play' 'Server should load level DM-Gael';
 should_have 'GameInfo::InitGame' 'Server should initialize game';
-should_lack "Couldn't open cdkey file" "Stock server build shouldn't include a cd key";
+should_lack 'Resolving master0.gamespy.com...' 'server is not attempting to send stats to gamespy'
+should_lack 'Resolving ut2004master1.epicgames.com...' 'server is not attempting to connect to epic list server';
 #####################################################################################################
 #####################################################################################################
 
-tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
-if [ "$?" == 0 ] ; then
+if ! tmux has-session -t "$LLTEST_NAME" 2>/dev/null;
+then
     tmux kill-session -t "$LLTEST_NAME";
 fi;
 

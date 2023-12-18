@@ -4,9 +4,17 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Build Image",
+            "type": "shell",
+            "command": "docker pull lacledeslan/gamesvr-ut2004 && docker build -f ./linux.Dockerfile . --tag ll/gamesvr-ut2004-freeplay --no-cache --build-arg BUILDNODE=$env:computername;",
+            "group": "build",
+            "problemMatcher": [],
+            "promptOnClose": true
+        },
+        {
             "label": "Build & Run Interactive Server",
             "type": "shell",
-            "command": "docker run -it --rm -p 7777-7788:7777-7788 -p 7777-7788:7777-7788/udp -p 8888:8888 -p 27900:27900 -p 27900:27900/udp -p 42292:42292 -p 42292:42292/udp lltest/gamesvr-ut2004-freeplay ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lltest?AdminPassword=test123 -nohomedir -lanplay",
+            "command": "docker run -it --rm --net=host ll/gamesvr-ut2004-freeplay ./ucc-bin server DM-Rustatorium?game=XGame.xDeathMatch?AdminName=lltest?AdminPassword=test123 -nohomedir -lanplay",
             "dependsOn": "Build Image",
             "group": "build",
             "problemMatcher": [],
@@ -15,8 +23,11 @@
         {
             "label": "Build & Execute Self Tests",
             "type": "shell",
-            "command": "docker run -it --rm lltest/gamesvr-ut2004-freeplay /app/ll-tests/gamesvr-ut2004-freeplay.sh;",
             "dependsOn": "build-image",
+            "command": "${workspaceFolder}/test.sh ll/gamesvr-ut2004-freeplay",
+            "windows": {
+                "command": "wsl -e bash ./test.sh ll/gamesvr-ut2004-freeplay"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -27,19 +38,11 @@
         {
             "label": "Build & Shell In",
             "type": "shell",
-            "command": "docker run -it --rm -p 7777-7788:7777-7788 -p 7777-7788:7777-7788/udp -p 8888:8888 -p 27900:27900 -p 27900:27900/udp -p 42292:42292 -p 42292:42292/udp --rm lltest/gamesvr-ut2004-freeplay;",
+            "command": "docker run -it --rm --net=host ll/gamesvr-ut2004-freeplay;",
             "dependsOn": "Build Image",
             "group": "build",
             "problemMatcher": [],
             "promptOnClose": true
-        },
-        {
-            "label": "Build Image",
-            "type": "shell",
-            "command": "docker build -f ./linux.Dockerfile . --tag lltest/gamesvr-ut2004-freeplay --no-cache --build-arg BUILDNODE=$env:computername;",
-            "group": "build",
-            "problemMatcher": [],
-            "promptOnClose": true
-        },
+        }
     ]
 }

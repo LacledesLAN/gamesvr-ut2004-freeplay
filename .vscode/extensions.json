@@ -1,7 +1,9 @@
 {
     "recommendations": [
-		"editorconfig.editorconfig",
-        "ms-azuretools.vscode-docker",
+        "davidanson.vscode-markdownlint",
+        "editorconfig.editorconfig",
+        "timonwong.shellcheck",
         "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
     ]
 }
