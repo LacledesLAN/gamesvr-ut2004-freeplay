@@ -1,17 +1,17 @@
-# escape=`
 ARG CONTAINER_REGISTRY="docker.io"
 
 FROM $CONTAINER_REGISTRY/lacledeslan/gamesvr-ut2004:latest
 
-ARG BUILDNODE=unspecified
-ARG SOURCE_COMMIT=unspecified
+ARG BUILD_NODE=unspecified
+ARG GIT_REVISION=unspecified
 
-LABEL com.lacledeslan.build-node=$BUILDNODE `
-        org.opencontainers.image.source="https://github.com/lacledeslan/gamesvr-ut2004-freeplay" `
-        org.opencontainers.image.title="Laclede's LAN Unreal Tournament 2004 Dedicated Freeplay Server" `
-        org.opencontainers.image.url=https://github.com/LacledesLAN/README.1ST `
-        org.opencontainers.image.vendor="Laclede's LAN" `
-        org.opencontainers.image.version=$SOURCE_COMMIT
+LABEL architecture="amd64" \
+    com.lacledeslan.build-node=$BUILD_NODE \
+    maintainer="Laclede's LAN <contact@lacledeslan.com>" \
+    org.opencontainers.image.description="Laclede's LAN Unreal Tournament 2004 Dedicated Freeplay Server" \
+    org.opencontainers.image.revision=$GIT_REVISION \
+    org.opencontainers.image.source="https://github.com/LacledesLAN/gamesvr-ut2004-freeplay" \
+    org.opencontainers.image.vendor="Laclede's LAN"
 
 COPY --chown=UT2004:root ./dist /app
 
