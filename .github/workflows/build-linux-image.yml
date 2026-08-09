@@ -2,9 +2,9 @@ name: linux/amd64
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
   repository_dispatch: # Allows action to be triggered via webhook
 
