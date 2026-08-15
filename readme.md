@@ -9,6 +9,12 @@ customized server.
 
 [![linux/amd64](https://github.com/LacledesLAN/gamesvr-ut2004-freeplay/actions/workflows/build-linux-image.yml/badge.svg?branch=main)](https://github.com/LacledesLAN/gamesvr-ut2004-freeplay/actions/workflows/build-linux-image.yml)
 
+### Download Docker Image
+
+```shell
+docker pull lacledeslan/gamesvr-ut2004-freeplay:latest;
+```
+
 ### Run simple interactive server
 
 ```shell
